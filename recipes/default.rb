@@ -11,12 +11,8 @@ include_recipe "apt"
 package "realpath"
 
 # Clone the ezvm Git repo and move its contents into /usr/local/ezvm
-# Here we cannot just mv the directory since /usr/local may not be
-# writeable by vagrant.  So we find all files/folders and move them.
-#
-# Here we must use find so list all the dotfiles/dotdirs like .git
-# and .gitmodules or what-have-you.  Globs don't work well in these
-# cases.
+# We use sudo to do the mv as /usr/local may not be writable by vagrant
+# Then we symlink /usr/local/bin/ezvm so that `ezvm` will be in our path.
 
 bash "clone ezvm into #{node['ezvm']['install_dir']}" do
   user "vagrant"
